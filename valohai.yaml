@@ -1,8 +1,8 @@
 ---
 
 - step:
-    name: tensorflow-cifar
-    description: Train a CNN model on the CIFAR10 dataset.
+    name: train-classic
+    description: Train a CNN model on the CIFAR10 dataset from URL.
     image: tensorflow/tensorflow:2.0.0-py3
     command:
       - pip install --disable-pip-version-check -q -r requirements-cpu.txt
@@ -10,6 +10,37 @@
     inputs:
       - name: cifar-10-batches-py
         default: http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+    parameters:
+      - name: batch_size
+        type: integer
+        default: 32
+      - name: num_classes
+        pass-as: --num_classes={v}
+        type: integer
+        default: 10
+      - name: epochs
+        type: integer
+        default: 5
+      - name: data_augmentation
+        type: integer
+        default: 1
+        description: Do we perform data augmentation (1) or not (0)?
+      - name: model_layers
+        type: string
+        default: "Activation('relu'),Conv2D(32, (3, 3)),Activation('relu'),MaxPooling2D(pool_size=(2, 2)),Dropout(0.25),Conv2D(64, (3, 3), padding='same'),Activation('relu'),Conv2D(64, (3, 3)),Activation('relu'),MaxPooling2D(pool_size=(2, 2)),Dropout(0.25),Flatten(),Dense(512),Activation('relu'),Dropout(0.5)"
+        description: Comma-separated list including the linear stack of layers added to the Sequential model.
+
+- step:
+    name: train-weka-io
+    description: Train a CNN model on the CIFAR10 dataset from weka.io cluster.
+    image: tensorflow/tensorflow:2.0.0-py3
+    command:
+      - pip install --disable-pip-version-check -q -r requirements-cpu.txt
+      - python cifar10_cnn.py {parameters}
+    mounts:
+      - source: /mnt/weka/demo
+        destination: /cifar-10
+        readonly: false
     parameters:
       - name: batch_size
         type: integer
