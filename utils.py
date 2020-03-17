@@ -10,6 +10,7 @@ def use_valohai_inputs(valohai_input_name, input_file_pattern, keras_cache_dir, 
 
     This is optional, just make initialization faster in the context of Keras examples.
     """
+    input_tar_path = None
     input_dir_base = os.getenv('VH_INPUTS_DIR', './')
     input_dir = os.path.realpath(os.path.join(input_dir_base, valohai_input_name))
 
