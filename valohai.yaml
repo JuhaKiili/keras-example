@@ -1,58 +1,11 @@
 ---
 
 - step:
-    name: tensorflow-check
-    description: Check dependency version in the Docker image after setup and the type of hardware.
-    image: tensorflow/tensorflow:2.0.0-gpu-py3
-    command:
-      - pip install --disable-pip-version-check -q -r requirements-gpu.txt
-      - python --version
-      - python -c "import keras; print('keras:', keras.__version__);"
-      - python -c "import tensorflow; print('tensorflow:', tensorflow.__version__);"
-      - python -c "from tensorflow.python.client import device_lib; device_lib.list_local_devices();"
-      - nvidia-smi
-      - nvcc --version | grep release
-
-- step:
-    name: tensorflow-deep-dream
-    description: Apply Deep Dream effect on the given image.
-    image: tensorflow/tensorflow:2.0.0-gpu-py3
-    command:
-      - pip install --disable-pip-version-check -q -r requirements-gpu.txt
-      - python deep_dream.py /valohai/inputs/source-image /valohai/outputs/result {parameters}
-    inputs:
-      - name: source-image
-        default: https://valohai-examples.s3-eu-west-1.amazonaws.com/images/ribs_original.jpg
-      - name: inception-model
-        default: https://github.com/fchollet/deep-learning-models/releases/download/v0.5/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
-    parameters:
-      - name: iterations
-        pass-as: '{v}'
-        type: integer
-        default: 5
-        description: Number of ascent steps per scale.
-      - name: step
-        pass-as: '{v}'
-        type: float
-        default: 0.01
-        description: Gradient ascent step size.
-      - name: num_octave
-        pass-as: '{v}'
-        type: integer
-        default: 3
-        description: Number of scales at which to run gradient ascent.
-      - name: octave_scale
-        pass-as: '{v}'
-        type: float
-        default: 1.4
-        description: Size ratio between scales.
-
-- step:
     name: tensorflow-cifar
     description: Train a CNN model on the CIFAR10 dataset.
-    image: tensorflow/tensorflow:2.0.0-gpu-py3
+    image: tensorflow/tensorflow:2.0.0-py3
     command:
-      - pip install --disable-pip-version-check -q -r requirements-gpu.txt
+      - pip install --disable-pip-version-check -q -r requirements-cpu.txt
       - python cifar10_cnn.py {parameters}
     inputs:
       - name: cifar-10-batches-py
