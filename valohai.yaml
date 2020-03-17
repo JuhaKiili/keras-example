@@ -2,6 +2,7 @@
 
 - step:
     name: train-classic
+    environment: aws-eu-west-1-c5-2xlarge
     description: Train a CNN model on the CIFAR10 dataset from URL.
     image: tensorflow/tensorflow:2.0.0-py3
     command:
@@ -32,6 +33,7 @@
 
 - step:
     name: train-weka-io
+    environment: wekaio-aws-eu-west-1-c5-2xlarge
     description: Train a CNN model on the CIFAR10 dataset from weka.io cluster.
     image: tensorflow/tensorflow:2.0.0-py3
     command:
