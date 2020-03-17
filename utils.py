@@ -14,20 +14,21 @@ def use_valohai_inputs(valohai_input_name, input_file_pattern, keras_cache_dir, 
     input_dir = os.path.realpath(os.path.join(input_dir_base, valohai_input_name))
 
     if not os.path.isdir(input_dir):
-        input_dir = '/cifar-10'
-        if not os.path.isdir(input_dir):
+        input_tar_path = os.getenv('DATA_PATH')
+        if not os.path.isfile(input_tar_path):
             print('Could not find Valohai input files at %s, using default Keras downloader as the backup' % input_dir)
             return
 
     # Find the tar files that were given as inputs to the execution.
-    input_tar_paths = glob.glob('%s/%s' % (input_dir, input_file_pattern))
-    if not input_tar_paths:
-        print(
-            'Could not find a %s file at %s, using default Keras downloader as the backup'
-            % (input_file_pattern, input_dir)
-        )
-        return
-    input_tar_path = input_tar_paths[0]
+    if not input_tar_path:
+        input_tar_paths = glob.glob('%s/%s' % (input_dir, input_file_pattern))
+        if not input_tar_paths:
+            print(
+                'Could not find a %s file at %s, using default Keras downloader as the backup'
+                % (input_file_pattern, input_dir)
+            )
+            return
+        input_tar_path = input_tar_paths[0]
 
     # The default location where Keras example helpers download their datasets.
     data_dir_base = os.path.expanduser(os.path.join('~', '.keras'))

@@ -39,8 +39,11 @@
       - python cifar10_cnn.py {parameters}
     mounts:
       - source: /mnt/weka/demo
-        destination: /cifar-10
+        destination: /weka
         readonly: false
+    environment-variables:
+      - name: DATA_PATH
+        default: "/weka/cifar-10-dataset/cifar-10-python.tar.gz"
     parameters:
       - name: batch_size
         type: integer
