@@ -14,8 +14,10 @@ def use_valohai_inputs(valohai_input_name, input_file_pattern, keras_cache_dir, 
     input_dir = os.path.realpath(os.path.join(input_dir_base, valohai_input_name))
 
     if not os.path.isdir(input_dir):
-        print('Could not find Valohai input files at %s, using default Keras downloader as the backup' % input_dir)
-        return
+        input_dir = '/cifar-10'
+        if not os.path.isdir(input_dir):
+            print('Could not find Valohai input files at %s, using default Keras downloader as the backup' % input_dir)
+            return
 
     # Find the tar files that were given as inputs to the execution.
     input_tar_paths = glob.glob('%s/%s' % (input_dir, input_file_pattern))
