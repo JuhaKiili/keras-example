@@ -29,7 +29,6 @@ def train(cli_params):
     num_classes = cli_params.num_classes
     epochs = cli_params.epochs
     data_augmentation = cli_params.data_augmentation
-    model_layers = cli_params.model_layers
     learning_rate = cli_params.learning_rate
 
     # The data, split between train and test sets:
@@ -44,9 +43,6 @@ def train(cli_params):
 
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=x_train.shape[1:]))
-
-    model = add_layers(model, model_layers)
-    model.add(Conv2D(32, (3, 3), activation="relu"))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Conv2D(64, (3, 3), activation="relu"))
