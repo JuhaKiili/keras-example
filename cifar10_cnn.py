@@ -120,8 +120,6 @@ def train(cli_params):
                 'batch': int(batch) + 1,
                 'loss': str(logs['loss']),
                 'accuracy': str(logs['accuracy']),
-                'val_loss': str(logs['val_loss']),
-                'val_accuracy': str(logs['val_accuracy']),
             })),
             # Add occasional batch logging so we can quickly see it is progressing.
             on_batch_begin=lambda batch, logs: (print('Batch %s' % batch) if batch % 100 == 0 else None),
