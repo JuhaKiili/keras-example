@@ -22,6 +22,19 @@ from keras.layers import Dense, Activation, Conv2D, MaxPooling2D, Dropout, Flatt
 from parse_layer_spec import add_layers
 from utils import use_valohai_inputs
 
+epoch = 0
+
+class LogCallback(keras.callbacks.Callback):
+    def __init__(self, model, color, company, speed_limit):
+        self.total_batch = 0
+
+    def on_batch_end(self, batch, logs={}):
+        self.total_batch += 1
+        print(json.dumps({
+            'batch': int(self.total_batch),
+            'loss': str(logs['loss']),
+            'accuracy': str(logs['accuracy']),
+        }))
 
 def train(cli_params):
     batch_size = cli_params.batch_size
@@ -109,18 +122,6 @@ def train(cli_params):
         # We use custom JSON logging to integrate with Valohai metadata system.
         json_logging_callback = LambdaCallback(
             on_epoch_begin=lambda epoch, logs: print('Epoch %s/%s' % ((int(epoch) + 1), epochs)),
-            on_epoch_end=lambda epoch, logs: print(json.dumps({
-                'epoch': int(epoch) + 1,
-                'loss': str(logs['loss']),
-                'accuracy': str(logs['accuracy']),
-                'val_loss': str(logs['val_loss']),
-                'val_accuracy': str(logs['val_accuracy']),
-            })),
-            on_batch_end=lambda batch, logs: print(json.dumps({
-                'batch': int(batch) + 1,
-                'loss': str(logs['loss']),
-                'accuracy': str(logs['accuracy']),
-            })),
             # Add occasional batch logging so we can quickly see it is progressing.
             on_batch_begin=lambda batch, logs: (print('Batch %s' % batch) if batch % 100 == 0 else None),
         )
@@ -131,7 +132,7 @@ def train(cli_params):
             epochs=epochs,
             validation_data=(x_test, y_test),
             workers=4,
-            callbacks=[json_logging_callback],
+            callbacks=[json_logging_callback, LogCallback()],
             verbose=0,  # disable default logging, it is unnecessarily noisy
         )
 
