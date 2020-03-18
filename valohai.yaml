@@ -22,7 +22,7 @@
     parameters:
       - name: batch_size
         type: integer
-        default: 2048
+        default: 1024
       - name: num_classes
         pass-as: --num_classes={v}
         type: integer
@@ -68,7 +68,7 @@
     parameters:
       - name: batch_size
         type: integer
-        default: 2048
+        default: 1024
         description: Training batch size.
       - name: num_classes
         pass-as: --num_classes={v}
