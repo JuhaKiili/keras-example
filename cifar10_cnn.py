@@ -94,7 +94,7 @@ def train(cli_params):
             rotation_range=cli_params.augmentation_rotate,  # randomly rotate images in the range (degrees, 0 to 180)
             width_shift_range=cli_params.augmentation_shift,  # randomly shift images horizontally (fraction of total width)
             height_shift_range=cli_params.augmentation_shift,  # randomly shift images vertically (fraction of total height)
-            shear_range=cli_params.augmentation_shear.,  # set range for random shear
+            shear_range=cli_params.augmentation_shear,  # set range for random shear
             zoom_range=cli_params.augmentation_zoom,  # set range for random zoom
             channel_shift_range=0.,  # set range for random channel shifts
             fill_mode='nearest',  # set mode for filling points outside the input boundaries
