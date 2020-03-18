@@ -17,8 +17,7 @@ from keras.callbacks import LambdaCallback
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Dense, Activation
-from keras.layers import Conv2D
+from keras.layers import Dense, Activation, Conv2D, MaxPooling2D, Dropout, Flatten
 
 from parse_layer_spec import add_layers
 from utils import use_valohai_inputs
