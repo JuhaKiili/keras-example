@@ -44,6 +44,10 @@
         destination: /weka
         readonly: false
     environment-variables:
+      - name: FILE_SYSTEM
+        default: "default"
+      - name: SNAPSHOT
+        default: ""
       - name: DATA_PATH
         default: "/weka/cifar-10-dataset/cifar-10-python.tar.gz"
     parameters:
