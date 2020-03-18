@@ -30,6 +30,7 @@ def train(cli_params):
     epochs = cli_params.epochs
     data_augmentation = cli_params.data_augmentation
     model_layers = cli_params.model_layers
+    learning_rate = cli_params.learning_rate
 
     # The data, split between train and test sets:
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -44,9 +45,18 @@ def train(cli_params):
     model = Sequential()
     model.add(Conv2D(32, (3, 3), padding='same', input_shape=x_train.shape[1:]))
 
-    # Define layers from Valohai parameters for more complex hyperparameter tuning.
     model = add_layers(model, model_layers)
-
+    model.add(Conv2D(32, (3, 3), activation="relu"))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Conv2D(64, (3, 3), activation="relu"))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Conv2D(64, (3, 3), activation="relu"))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+    model.add(Dense(512))
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
 
@@ -81,11 +91,11 @@ def train(cli_params):
             samplewise_std_normalization=False,  # divide each input by its std
             zca_whitening=False,  # apply ZCA whitening
             zca_epsilon=1e-06,  # epsilon for ZCA whitening
-            rotation_range=0,  # randomly rotate images in the range (degrees, 0 to 180)
-            width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
-            height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
-            shear_range=0.,  # set range for random shear
-            zoom_range=0.,  # set range for random zoom
+            rotation_range=cli_params.augmentation_rotate,  # randomly rotate images in the range (degrees, 0 to 180)
+            width_shift_range=cli_params.augmentation_shift,  # randomly shift images horizontally (fraction of total width)
+            height_shift_range=cli_params.augmentation_shift,  # randomly shift images vertically (fraction of total height)
+            shear_range=cli_params.augmentation_shear.,  # set range for random shear
+            zoom_range=cli_params.augmentation_zoom,  # set range for random zoom
             channel_shift_range=0.,  # set range for random channel shifts
             fill_mode='nearest',  # set mode for filling points outside the input boundaries
             cval=0.,  # value used for fill_mode = "constant"
@@ -146,7 +156,12 @@ if __name__ == '__main__':
     parser.add_argument('--num_classes', type=int, required=True)
     parser.add_argument('--epochs', type=int, required=True)
     parser.add_argument('--data_augmentation', type=int, required=True)
-    parser.add_argument('--model_layers', type=str, required=True)
+    parser.add_argument('--augmentation_rotate', type=float, required=True)
+    parser.add_argument('--augmentation_shift', type=float, required=True)
+    parser.add_argument('--augmentation_shear', type=float, required=True)
+    parser.add_argument('--augmentation_zoom', type=float, required=True)
+    parser.add_argument('--learning_rate', type=float, required=True)
+
     cli_parameters, unparsed = parser.parse_known_args()
     use_valohai_inputs(
         valohai_input_name='cifar-10-batches-py',

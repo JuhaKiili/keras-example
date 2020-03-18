@@ -26,10 +26,22 @@
         type: integer
         default: 1
         description: Do we perform data augmentation (1) or not (0)?
-      - name: model_layers
-        type: string
-        default: "Activation('relu'),Conv2D(32, (3, 3)),Activation('relu'),MaxPooling2D(pool_size=(2, 2)),Dropout(0.25),Conv2D(64, (3, 3), padding='same'),Activation('relu'),Conv2D(64, (3, 3)),Activation('relu'),MaxPooling2D(pool_size=(2, 2)),Dropout(0.25),Flatten(),Dense(512),Activation('relu'),Dropout(0.5)"
-        description: Comma-separated list including the linear stack of layers added to the Sequential model.
+      - name: augmentation_rotate
+        type: float
+        default: 5.0
+        description: Augmentation - Image random rotation angle range
+      - name: augmentation_zoom
+        type: float
+        default: 0.1
+        description: Augmentation - Image random zooming range
+      - name: augmentation_shift
+        type: float
+        default: 0.05
+        description: Augmentation - Image random shifting range (both x & y)
+      - name: augmentation_shear
+        type: float
+        default: 0.025
+        description: Augmentation - Image random shearing range
 
 - step:
     name: train-weka-io
@@ -65,7 +77,19 @@
         type: integer
         default: 1
         description: Do we perform data augmentation (1) or not (0)?
-      - name: model_layers
-        type: string
-        default: "Activation('relu'),Conv2D(32, (3, 3)),Activation('relu'),MaxPooling2D(pool_size=(2, 2)),Dropout(0.25),Conv2D(64, (3, 3), padding='same'),Activation('relu'),Conv2D(64, (3, 3)),Activation('relu'),MaxPooling2D(pool_size=(2, 2)),Dropout(0.25),Flatten(),Dense(512),Activation('relu'),Dropout(0.5)"
-        description: Comma-separated list including the linear stack of layers added to the Sequential model.
+      - name: augmentation_rotate
+        type: float
+        default: 5.0
+        description: Augmentation - Image random rotation angle range
+      - name: augmentation_zoom
+        type: float
+        default: 0.1
+        description: Augmentation - Image random zooming range
+      - name: augmentation_shift
+        type: float
+        default: 0.05
+        description: Augmentation - Image random shifting range (both x & y)
+      - name: augmentation_shear
+        type: float
+        default: 0.025
+        description: Augmentation - Image random shearing range
