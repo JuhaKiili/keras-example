@@ -25,7 +25,7 @@ from utils import use_valohai_inputs
 epoch = 0
 
 class LogCallback(keras.callbacks.Callback):
-    def __init__():
+    def __init__(self):
         self.total_batch = 0
 
     def on_batch_end(self, batch, logs={}):
