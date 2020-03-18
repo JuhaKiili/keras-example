@@ -1,56 +1,6 @@
 ---
 
 - step:
-    name: train-classic
-    environment: aws-eu-west-1-c5-2xlarge
-    description: Train a CNN model on the CIFAR10 dataset from URL.
-    image: tensorflow/tensorflow:2.0.0-py3
-    command:
-      - pip install --disable-pip-version-check -q -r requirements-cpu.txt
-      - python cifar10_cnn.py {parameters}
-    inputs:
-      - name: cifar-10-batches-py
-        default: http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-    parameters:
-      - name: batch_size
-        type: integer
-        default: 32
-        description: Training batch size.
-      - name: num_classes
-        pass-as: --num_classes={v}
-        type: integer
-        default: 10
-        description: Number of classes for the classification.
-      - name: epochs
-        type: integer
-        default: 5
-        description: How many training epoch(s).
-      - name: learning_rate
-        type: float
-        default: 0.1
-        description: Learning rate used by the optimizer.
-      - name: data_augmentation
-        type: integer
-        default: 1
-        description: Do we perform data augmentation (1) or not (0)?
-      - name: augmentation_rotate
-        type: float
-        default: 5.0
-        description: Augmentation - Image random rotation angle range.
-      - name: augmentation_zoom
-        type: float
-        default: 0.1
-        description: Augmentation - Image random zooming range.
-      - name: augmentation_shift
-        type: float
-        default: 0.05
-        description: Augmentation - Image random shifting range (both x & y).
-      - name: augmentation_shear
-        type: float
-        default: 0.025
-        description: Augmentation - Image random shearing range.
-
-- step:
     name: train-weka-io
     environment: wekaio-aws-eu-west-1-c5-2xlarge
     description: Train a CNN model on the CIFAR10 dataset from weka.io cluster.
@@ -103,3 +53,53 @@
         type: float
         default: 0.025
         description: Augmentation - Image random shearing range
+
+- step:
+    name: train-z-classic
+    environment: aws-eu-west-1-c5-2xlarge
+    description: Train a CNN model on the CIFAR10 dataset from URL.
+    image: tensorflow/tensorflow:2.0.0-py3
+    command:
+      - pip install --disable-pip-version-check -q -r requirements-cpu.txt
+      - python cifar10_cnn.py {parameters}
+    inputs:
+      - name: cifar-10-batches-py
+        default: http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+    parameters:
+      - name: batch_size
+        type: integer
+        default: 32
+        description: Training batch size.
+      - name: num_classes
+        pass-as: --num_classes={v}
+        type: integer
+        default: 10
+        description: Number of classes for the classification.
+      - name: epochs
+        type: integer
+        default: 5
+        description: How many training epoch(s).
+      - name: learning_rate
+        type: float
+        default: 0.1
+        description: Learning rate used by the optimizer.
+      - name: data_augmentation
+        type: integer
+        default: 1
+        description: Do we perform data augmentation (1) or not (0)?
+      - name: augmentation_rotate
+        type: float
+        default: 5.0
+        description: Augmentation - Image random rotation angle range.
+      - name: augmentation_zoom
+        type: float
+        default: 0.1
+        description: Augmentation - Image random zooming range.
+      - name: augmentation_shift
+        type: float
+        default: 0.05
+        description: Augmentation - Image random shifting range (both x & y).
+      - name: augmentation_shear
+        type: float
+        default: 0.025
+        description: Augmentation - Image random shearing range.
